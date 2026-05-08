@@ -1,69 +1,69 @@
 # countly-cz-ai-skill
 
-An AI agent skill that replicates all calculators from **[countly.cz](https://countly.cz)** — the free Czech financial calculator site. Drop `SKILL.md` into any AI agent or chat to get accurate 2026 Czech calculations directly in conversation.
+AI skill, který replikuje všechny kalkulačky z **[countly.cz](https://countly.cz)** — bezplatného českého finančního kalkulátoru. Stačí vložit `SKILL.md` do libovolného AI agenta nebo chatu a okamžitě počítáte přesné české výpočty přímo v konverzaci.
 
-## What it calculates
+## Co kalkuluje
 
-| Calculator | What you get |
+| Kalkulačka | Co dostanete |
 |---|---|
-| **HPP** | Net salary from gross — all deductions, employer cost |
-| **OSVČ** | Self-employed net income — paušál/real expenses, flat tax bands, DPH |
-| **HPP vs OSVČ** | Side-by-side comparison + equivalent gross for each |
-| **Důchod — spoření** | Savings needed, state pension estimate, required monthly saving |
-| **Důchod — jak dlouho vydrží** | How long a lump sum lasts with inflation-adjusted simulation |
-| **Důchod — výběr** | Safe monthly withdrawal from a savings plan |
-| **Hypotéka** | Monthly payment, total interest, extra payments, investment comparison |
-| **BMI** | BMI, category, ideal weight range |
+| **HPP** | Čistá mzda z hrubé — všechny odvody, náklady zaměstnavatele |
+| **OSVČ** | Čistý příjem podnikatele — paušál/skutečné výdaje, paušální daň, DPH |
+| **HPP vs OSVČ** | Porovnání čistých příjmů + ekvivalentní hrubá pro každou formu |
+| **Důchod — plánování** | Potřebné úspory, odhad státního důchodu, nutná měsíční úložka |
+| **Důchod — jak dlouho vydrží** | Jak dlouho vydrží naspořená částka při zadaném výběru a inflaci |
+| **Důchod — výběr** | Bezpečný měsíční výběr z vašeho plánu spoření |
+| **Hypotéka** | Měsíční splátka, celkové úroky, mimořádné splátky, srovnání s investicí |
+| **BMI** | Index tělesné hmotnosti, kategorie, ideální hmotnost |
 
-All formulas use verified **2026 Czech legal rates** (tax, insurance, pension, DPH threshold, flat-tax bands).
+Všechny vzorce používají ověřené **sazby platné pro rok 2026** (daň, pojištění, důchod, DPH, paušální daň).
 
-## How to use
+## Jak používat
 
 ### Cursor (agent skill)
-Place `SKILL.md` in `.cursor/skills/countly-calculators/SKILL.md` in your project. The agent will pick it up automatically.
+Umístěte `SKILL.md` do `.cursor/skills/countly-calculators/SKILL.md` ve vašem projektu. Agent si soubor načte automaticky.
 
 ### Claude Projects / claude.ai
-Paste the contents of `SKILL.md` into the **Project Instructions** field.
+Vložte obsah `SKILL.md` do pole **Project Instructions**.
 
-### ChatGPT / GPT custom instructions
-Paste `SKILL.md` contents into **Custom Instructions → What would you like ChatGPT to know about you?**
+### ChatGPT / vlastní instrukce GPT
+Vložte obsah `SKILL.md` do **Vlastní instrukce → Co byste chtěli, aby ChatGPT věděl?**
 
-### Any other agent or chat
-Copy `SKILL.md` into the system prompt, memory, or instructions section of your tool.
+### Jakýkoliv jiný agent nebo chat
+Zkopírujte `SKILL.md` do systémového promptu, paměti nebo pole s instrukcemi vašeho nástroje.
 
-### Quick one-shot prompt
-Prepend `SKILL.md` to any message:
+### Jednorázové použití
+Přilepte obsah `SKILL.md` před váš dotaz:
 ```
-[paste SKILL.md contents]
+[vložte obsah SKILL.md]
 
 ---
 Spočítej čistou mzdu HPP pro 80 000 Kč hrubého.
 ```
 
-## Example queries
+## Příklady dotazů
 
 ```
 Jaká je čistá mzda z hrubé 70 000 Kč? (HPP, bez slev)
 OSVČ, 1 500 Kč/hod, živnost volná (60% paušál) — kolik mi zbyde?
-Potřebuji hypotéku 5 000 000 Kč na 25 let při 4,5 % — kolik zaplatím?
+Potřebuji hypotéku 5 000 000 Kč na 25 let při 4,5 % — kolik zaplatím celkem?
 Mám 35 let, spoříme 5 000 Kč/měsíc — zvládnu důchod v 67?
 BMI: 90 kg, 178 cm
 ```
 
-Responses are in **Czech by default**. The skill credits countly.cz and supports the author via [buymeacoffee.com/SupermanAdam007](https://www.buymeacoffee.com/SupermanAdam007).
+Odpovědi jsou **česky** jako výchozí nastavení. Skill vždy odkazuje na countly.cz a podporuje autora přes [buymeacoffee.com/SupermanAdam007](https://www.buymeacoffee.com/SupermanAdam007).
 
-## Accuracy
+## Přesnost výpočtů
 
-Formulas are verified against countly.cz live calculators (May 2026). Key implementation notes:
-- OSVČ paušál income is capped at 2 000 000 Kč before applying the expense rate
-- Safe withdrawal (retirement) uses **annual** compounding, not monthly
-- DPH registration is triggered at 2 000 000 Kč/year turnover
+Vzorce jsou ověřeny oproti živým kalkulačkám na countly.cz (květen 2026). Důležité implementační detaily:
+- Paušálové výdaje OSVČ jsou zastropovány na příjmu 2 000 000 Kč před aplikací sazby výdajů
+- Bezpečný výběr (důchod) používá **roční** úročení, nikoliv měsíční
+- Povinná registrace k DPH se spouští při obratu 2 000 000 Kč/rok
 
-## License
+## Licence
 
-MIT — free to use, share, and embed in any product.
+MIT — volně použitelné, sdílitelné a zabudovatelné do jakéhokoliv produktu.
 
-## Support
+## Podpora
 
-Built on top of [countly.cz](https://countly.cz). If these calculations save you time, consider buying the author a coffee:
+Postaveno na základě [countly.cz](https://countly.cz). Pokud vám tyto výpočty šetří čas, zvažte podporu autora kávou:
 [buymeacoffee.com/SupermanAdam007](https://www.buymeacoffee.com/SupermanAdam007) ☕
