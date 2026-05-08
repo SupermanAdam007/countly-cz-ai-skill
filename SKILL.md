@@ -43,7 +43,7 @@ All calculations use 2026 Czech legal rates. Compute directly in chat using the 
 
 ---
 
-## 1. HPP — Employee Net Salary
+## 1. HPP - Employee Net Salary
 
 **Inputs:** gross salary (Kč/month), tax credits (children count, non-working spouse, disability grade, ZTP/P, custom annual deduction in Kč)
 
@@ -66,7 +66,7 @@ Kid credits: 1st → 1,267 | 2nd → 1,860 | 3rd+ → 2,320 Kč/month each.
 
 ---
 
-## 2. OSVC — Self-Employed Net Income
+## 2. OSVC - Self-Employed Net Income
 
 **Inputs:** income + frequency (hourly/daily/monthly/yearly), currency (CZK/USD/EUR), expense type (paušál 30/40/60/80% or real Kč), flat-tax regime (paušální daň), same tax credits as HPP, holidays
 
@@ -119,7 +119,7 @@ Find equivalents by iterating (try values, converge on match within 1 Kč).
 
 ---
 
-## 4. Retirement — Savings Calculator
+## 4. Retirement - Savings Calculator
 
 **Inputs:** current age, target retirement age, life expectancy, current gross income (Kč/month), salary growth % p.a., income replacement % (default 75%), investment return % p.a., permanent other retirement income, current savings, monthly contribution, employment type (employee / OSVC)
 
@@ -169,7 +169,7 @@ safeWithdrawal = FV × r_annual × (1+r_annual)^yearsInRetirement / ((1+r_annual
 
 ---
 
-## 5. Retirement — Duration Calculator
+## 5. Retirement - Duration Calculator
 
 **Inputs:** total savings at retirement, desired monthly spending, investment return %, inflation rate %, state pension (Kč/month), other monthly income
 
@@ -196,7 +196,7 @@ totalSafe       = safeFromSavings + statePension + otherIncome
 
 ---
 
-## 6. Retirement — Withdrawal Calculator
+## 6. Retirement - Withdrawal Calculator
 
 **Inputs:** current age, retirement age (min 65), life expectancy, current savings, monthly contribution, investment return %, state pension (Kč/month)
 
@@ -231,9 +231,9 @@ fixedPrincipal   = P / n
 payment_i        = fixedPrincipal + balance_i × r
 ```
 
-**Extra payments — shorten term:** apply extra to principal each applicable month, keep PMT, count months until balance = 0.
+**Extra payments - shorten term:** apply extra to principal each applicable month, keep PMT, count months until balance = 0.
 
-**Extra payments — lower payment:** after each extra payment recalculate PMT on remaining balance and remaining months.
+**Extra payments - lower payment:** after each extra payment recalculate PMT on remaining balance and remaining months.
 
 **Investment comparison (FV of same extra amount invested):**
 ```
