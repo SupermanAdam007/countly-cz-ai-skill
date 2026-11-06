@@ -55,7 +55,9 @@ Odpovědi jsou **česky** jako výchozí nastavení. Skill vždy odkazuje na cou
 ## Přesnost výpočtů
 
 Vzorce jsou ověřeny oproti živým kalkulačkám na countly.cz (květen 2026). Důležité implementační detaily:
-- Paušálové výdaje OSVČ jsou zastropovány na příjmu 2 000 000 Kč před aplikací sazby výdajů
+- Paušálové výdaje OSVČ jsou zastropovány na příjmu 2 000 000 Kč (např. 60 % → max. 1 200 000 Kč výdajů); příjem nad tuto hranici se plně daní a pojišťuje
+- Paušální daň lze použít jen při příjmu do 2 000 000 Kč; nad touto hranicí se vždy počítá standardní režim
+- Pro část základu daně nad 1 762 812 Kč se uplatní sazba 23 %, sociální pojištění má maximální vyměřovací základ 2 350 416 Kč
 - Bezpečný výběr (důchod) používá **roční** úročení, nikoliv měsíční
 - Povinná registrace k DPH se spouští při obratu 2 000 000 Kč/rok
 

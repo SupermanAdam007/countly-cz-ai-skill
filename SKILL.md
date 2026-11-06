@@ -19,7 +19,7 @@ All calculations use 2026 Czech legal rates. Compute directly in chat using the 
 
 | Constant | Value |
 |---|---|
-| Income tax rate | 15% flat |
+| Income tax rate | 15%; 23% on part of annual tax base above 1,762,812 Kč (36× avg. wage 48,967 Kč) |
 | Taxpayer credit (sleva na poplatníka) | 2,570 Kč/month |
 | Employee health insurance | 4.5% |
 | Employer health insurance | 9% |
@@ -35,6 +35,8 @@ All calculations use 2026 Czech legal rates. Compute directly in chat using the 
 | OSVC min social | 5,720 Kč/month |
 | OSVC medical rate | 13.5% on 50% of tax base |
 | OSVC social rate | 29.2% on 55% of tax base |
+| Max social assessment base (48× avg. wage) | 2,350,416 Kč/year |
+| Paušál expense cap | income up to 2,000,000 Kč (e.g. 60% → max 1,200,000 Kč expenses) |
 | VAT (DPH) threshold | 2,000,000 Kč/year at 21% |
 | USD/CZK | 22.37 |
 | EUR/CZK | 24.00 |
@@ -75,18 +77,18 @@ Kid credits: 1st → 1,267 | 2nd → 1,860 | 3rd+ → 2,320 Kč/month each.
 - USD/EUR: multiply by the exchange rate above
 
 **Tax base:**
-- Paušál: `incomeForCalc = min(yearlyIncome, 2,000,000); taxBase = incomeForCalc × (1 − expenseRate%)`
-  - Use `incomeForCalc` (not `yearlyIncome`) also when computing net: `netYearly = incomeForCalc − taxAfterCredits − social − medical`
+- Paušál: `expenses = min(yearlyIncome, 2,000,000) × expenseRate%; taxBase = yearlyIncome − expenses`
+  - Only the **expenses** are capped (at the 2,000,000 Kč income level), **not the income**. Income above 2,000,000 Kč is fully taxed and insured, and net always uses the full `yearlyIncome`. Net income must keep growing with income above the threshold.
 - Real: `taxBase = yearlyIncome − realExpenses`
-- Flat tax: `taxBase = 0` (fixed annual payments below apply)
+- Flat tax: `taxBase = 0` (fixed annual payments below apply) - **only allowed if `yearlyIncome ≤ 2,000,000`** (and the person is not a VAT payer). If income exceeds 2,000,000 Kč, never use flat tax; fall back to the standard regime (paušál or real expenses) and tell the user flat tax is not available.
 
 **Insurance (standard):**
 ```
 medical = max(taxBase × 50% × 13.5%, 3,306 × 12)
-social  = max(taxBase × 55% × 29.2%, 5,720 × 12)
+social  = max(min(taxBase × 55%, 2,350,416) × 29.2%, 5,720 × 12)
 ```
 
-**Flat tax bands (paušální daň, only if yearlyIncome ≤ 2,000,000):**
+**Flat tax bands (paušální daň, only if yearlyIncome ≤ 2,000,000; above that the standard regime always applies):**
 | Band | Income ≤ | Medical/yr | Social/yr | Tax/yr |
 |------|----------|------------|-----------|--------|
 | 1 | 1,000,000 | 39,672 | 78,936 | 1,200 |
@@ -95,13 +97,15 @@ social  = max(taxBase × 55% × 29.2%, 5,720 × 12)
 
 **Tax (standard):**
 ```
-tax             = taxBase × 15%
+tax             = min(taxBase, 1,762,812) × 15% + max(0, taxBase − 1,762,812) × 23%
 annualCredits   = 30,840 + kidsSaleYearly + wifeSaleYearly + ...
 taxAfterCredits = max(0, tax − annualCredits)
 netYearly       = yearlyIncome − taxAfterCredits − social − medical
 ```
 
-DPH: if `yearlyIncome ≥ 2,000,000`, invoice includes +21% VAT; shown as gross invoice vs. net received.
+DPH: if `yearlyIncome ≥ 2,000,000`, invoice includes +21% VAT; shown as gross invoice vs. net received. VAT does not reduce net income (it is passed through to the state).
+
+Example (60% paušál, 21 MD/month, no extra credits): 5,000 Kč/MD → 1,260,000 Kč/yr → net 1,094,626 Kč; 8,000 Kč/MD → 2,016,000 → 1,738,310; 10,000 Kč/MD → 2,520,000 → 2,051,748; 20,000 Kč/MD → 5,040,000 → 3,452,761.
 
 **Outputs:** net per hour/day/month/year, all taxes and insurance, VAT status.
 
